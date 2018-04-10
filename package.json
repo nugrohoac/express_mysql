@@ -1,0 +1,25 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "forAngular",
+  "main": "index.js",
+  "scripts": {
+    "test": "testcaseOK"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nugrohoac/api.git"
+  },
+  "keywords": [
+    "simpleApi"
+  ],
+  "author": "Cahyono_NA",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nugrohoac/api/issues"
+  },
+  "homepage": "https://github.com/nugrohoac/api#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
