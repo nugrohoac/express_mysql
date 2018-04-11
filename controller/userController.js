@@ -5,7 +5,8 @@ var Read    = function(req, res){
         res.json({
             error:false,
             message:'users list',
-            data:data
+            data:data,
+            token: 'token'
         });
     }).catch(function(err){
         res.json({ error:  err })
@@ -13,6 +14,24 @@ var Read    = function(req, res){
     });
 };
 
+var Update  = function(req, res){
+    User.update(
+        {
+            nama: 'Cahyo',
+            alamat: 'Jl. Menujut kebenaran'
+        },
+        {
+            where: {id: 2}
+        }
+    ).then(function(rowsUpdate){
+        res.json({sukses: 'sukses'});
+    }).catch(function(err){
+        console.log(err);
+        res.json(err);
+    })
+}
+
 module.exports = {
-    Read: Read
+    Read: Read,
+    Update: Update
 }

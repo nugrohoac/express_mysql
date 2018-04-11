@@ -14,7 +14,10 @@ var sequelize       = new Sequelize(
                             dialect: config.dialec,
                             logging: false,
                             freezeTableName: true,
-                            operatorsAliases: false
+                            operatorsAliases: false,
+                            define: {
+                                timestamps: false
+                            }
                         }
                     );
 

@@ -8,7 +8,8 @@ var User = database.sequelize.define('tests', {
     },
     nama: database.Sequelize.INTEGER,
     alamat: database.Sequelize.STRING,
-    token: database.Sequelize.STRING
+    token: database.Sequelize.STRING,
+    exclude: ['created_at', 'updated_at']
 });
 
 module.exports =  User;
