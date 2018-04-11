@@ -27,11 +27,32 @@ var Update  = function(req, res){
         res.json({sukses: 'sukses'});
     }).catch(function(err){
         console.log(err);
-        res.json(err);
+        res.json({ message : err });
+    })
+}
+
+var Detail = function(req, res){
+    User.findOne({
+        where : {
+            id: 1
+        }
+    })
+    .then(function(data){
+        res.json({
+            error: false,
+            message: 'succes',
+            token: 'token',
+            data: data,
+        })
+    })
+    .catch(function(err){
+        console.log(err);
+        res.json({ message : err })
     })
 }
 
 module.exports = {
     Read: Read,
-    Update: Update
+    Update: Update,
+    Detail: Detail
 }

@@ -6,5 +6,7 @@ UserRouter.route('/read')
     .get(UserController.Read);
 UserRouter.route('/update')
     .get(UserController.Update);
+UserRouter.route('/detail')
+    .get(UserController.Detail)
 
 module.exports = UserRouter;

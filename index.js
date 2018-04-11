@@ -1,5 +1,6 @@
 //initialize base on library
 var express     = require('express');
+var cors        = require('cors')
 var app         = express();
 var morgan      = require('morgan');
 var bodyParser  = require('body-parser');
@@ -14,7 +15,7 @@ var UserRoute   = require('./routes/userRoute');
 
 //setup on running
 var port        = process.env.PORT || 3000;
-
+app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended : true }));
 app.use(bodyParser.json());
