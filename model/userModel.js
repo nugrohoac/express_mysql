@@ -1,10 +1,14 @@
 // include config database
 var database        = require('../config/database');
 
-var User = database.sequelize.define('tb_user', {
-    user_id: database.Sequelize.INTEGER,
-    user_name: database.Sequelize.STRING,
-    user_email: database.Sequelize.STRING,
-    user_address: database.Sequelize.STRING,
+var User = database.sequelize.define('tests', {
+    id: {
+        type: database.Sequelize.INTEGER,
+        primaryKey: true
+    },
+    nama: database.Sequelize.INTEGER,
+    alamat: database.Sequelize.STRING,
     token: database.Sequelize.STRING
 });
+
+module.exports =  User;

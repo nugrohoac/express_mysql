@@ -11,7 +11,10 @@ var sequelize       = new Sequelize(
                         config.password,{
                             host: config.host,
                             port: config.port,
-                            dialect: config.dialec
+                            dialect: config.dialec,
+                            logging: false,
+                            freezeTableName: true,
+                            operatorsAliases: false
                         }
                     );
 
