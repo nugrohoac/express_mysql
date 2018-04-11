@@ -1,6 +1,6 @@
 //initialize base on library
 var express     = require('express');
-var cors        = require('cors')
+var cors        = require('cors');
 var app         = express();
 var morgan      = require('morgan');
 var bodyParser  = require('body-parser');
