@@ -4,11 +4,14 @@ var dateforrmat = require('dateformat');
 var jwt         = require('jsonwebtoken');
 var config      = require('../config/config');
 
+
 var Register  = function(req, res){
     User.create({
-        nama: req.body.nama,
-        alamat: req.body.alamat,
-        token: jwt.sign({
+        nama : req.body.nama,
+        username : req.body.username,
+        alamat : req.body.alamat,
+        password: bcrypt.hash(req.body.password, 10),
+        token : jwt.sign({
             name: req.body.nama,
             alamet: req.body.alamat,
             time: Date.now()
@@ -102,6 +105,15 @@ var Delete  = function(req, res){
     })
 }
 
+var Login   = function(req, res){
+    var token = req.token;
+    var username = req.body.username;
+    var password = req.body.password;
+    User.findOne({
+
+    })
+}
+
 module.exports = {
     Register : Register,
     Read: Read,
@@ -109,3 +121,9 @@ module.exports = {
     Profile: Profile,
     Delete: Delete 
 }
+
+// if(bcrypt.compareSync('somePassword', hash)) {
+//  // Passwords match
+// } else {
+//  // Passwords don't match
+// }

@@ -33,11 +33,24 @@ https.createServer(options, app).listen(port);
 
 console.log('Example app listening https://localhost:' + port + '/');
 
+var bcrypt = require('bcrypt');
+ 
+// Encrypt 
+app.get('/hash', function(req, res){
+    var hash = bcrypt.hashSync('myPlaintextPassword', 7);
+    var decrypt = bcrypt.compareSync('myPlaintextPassword', '$2b$07$5q2KUqTX.MB4RHZ5v39em.lDVGYn4rBNOzQrbzyAw.uAwhV2ITOZm');
+    res.json({
+        hash: hash,
+        decrypt: decrypt
+    })
+});
+
 app.use('/user', UserRoute);
 
 app.use(function(req, res, next){
     if(req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer'){
         var token = req.headers.authorization.split(' ')[1];
+        req.token = token;
         jwt.verify(token,config.secret,function(err, decode){
             if(err){
                 res.json({
