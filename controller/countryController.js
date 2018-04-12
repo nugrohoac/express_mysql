@@ -1,13 +1,13 @@
-var User        = require('../model/userModel');
+var Country     = require('../model/countryModel');
 var uuidv1      = require('uuid/v1'); //uuidv1()
 var dateforrmat = require('dateformat');
 var jwt         = require('jsonwebtoken');
 var config      = require('../config/config');
 
-var Register  = function(req, res){
-    User.create({
-        nama: req.body.nama,
-        alamat: req.body.alamat,
+var Create  = function(req, res){
+    Country.create({
+        country_name: req.body.country_name,
+        country_villagers: req.body.country_villagers,
         token: jwt.sign({
             name: req.body.nama,
             alamet: req.body.alamat,
@@ -28,15 +28,16 @@ var Register  = function(req, res){
 };
 
 var Read    = function(req, res){
-    User.findAll({ 
-        attributes: ['id','nama','alamat','token'],
+    Country.findAll({ 
+        attributes: ['country_id','country_name','country_villagers'],
         limit: 5,
-        order: [['id', 'DESC']]
+        offset: 5,
+        order: [['country_id', 'DESC']]
     })
     .then(function(data){
         res.json({
             error:false,
-            message:'users list',
+            message:'Country list',
             data:data
         });
     })
@@ -47,12 +48,12 @@ var Read    = function(req, res){
 };
 
 var Update  = function(req, res){
-    User.update({
-            nama: req.body.nama,
-            alamat: req.body.alamat
+    Country.update({
+            country_name: req.body.country_name,
+            country_villagers: req.body.country_villagers
         },{
             where: {
-                id: req.body.id
+                country_id: req.body.id
             }
         }
     )
@@ -68,10 +69,10 @@ var Update  = function(req, res){
     })
 }
 
-var Profile = function(req, res){
-    User.findOne({
+var Detail = function(req, res){
+    Country.findOne({
         where : {
-            id: req.params.id
+            country_id: req.params.id
         }
     })
     .then(function(data){
@@ -89,9 +90,9 @@ var Profile = function(req, res){
 }
 
 var Delete  = function(req, res){
-    User.destroy({ 
+    Country.destroy({ 
         where : { 
-            id: 3 
+            country_id: req.params.id
         } 
     })
     .then(function(data){
@@ -103,9 +104,9 @@ var Delete  = function(req, res){
 }
 
 module.exports = {
-    Register : Register,
+    Create : Create,
     Read: Read,
     Update: Update,
-    Profile: Profile,
-    Delete: Delete 
+    Delete: Delete,
+    Detail: Detail
 }

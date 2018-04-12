@@ -8,7 +8,7 @@ UserRouter.route('/update')
     .post(UserController.Update);
 UserRouter.route('/profile/:id')
     .get(UserController.Profile);
-UserRouter.route('/delete')
+UserRouter.route('/delete/:id')
     .get(UserController.Delete);
 UserRouter.route('/register')
     .post(UserController.Register);

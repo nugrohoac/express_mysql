@@ -1,7 +1,7 @@
 // include config database
 var database        = require('../config/database');
 
-var User = database.sequelize.define('tests', {
+var User = database.sequelize.define('users', {
     id: {
         type: database.Sequelize.INTEGER,
         primaryKey: true

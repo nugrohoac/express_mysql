@@ -9,10 +9,12 @@ var http        = require('http');
 var https       = require('https');
 var fs          = require('fs');
 var dateforrmat = require('dateformat');
+var jwt         = require('jsonwebtoken');
 
 //initialize base on directory
 var config      = require('./config/config');
 var UserRoute   = require('./routes/userRoute');
+var CountryRoute    = require('./routes/countryRoute');
 
 //setup on running
 var port        = process.env.PORT || 3000;
@@ -32,3 +34,27 @@ https.createServer(options, app).listen(port);
 console.log('Example app listening https://localhost:' + port + '/');
 
 app.use('/user', UserRoute);
+
+app.use(function(req, res, next){
+    if(req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer'){
+        var token = req.headers.authorization.split(' ')[1];
+        jwt.verify(token,config.secret,function(err, decode){
+            if(err){
+                res.json({
+                    status:401,
+                    success: false,
+                    message: 'Failed Authectication token'
+                })
+            }
+        })
+        next();
+    }else{
+        res.json({
+            status: 401,
+            message: 'Authetication failed, please send token',
+            token: '',
+        })
+    }
+});
+
+app.use('/country', CountryRoute);
