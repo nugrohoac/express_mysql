@@ -31,7 +31,7 @@ var Read    = function(req, res){
     Country.findAll({ 
         attributes: ['country_id','country_name','country_villagers'],
         limit: 5,
-        offset: 5,
+        offset: req.params.page * 5,
         order: [['country_id', 'DESC']]
     })
     .then(function(data){

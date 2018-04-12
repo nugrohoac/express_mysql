@@ -7,7 +7,7 @@ CountryRouter.route('/create')
 CountryRouter.route('/update')
     .post(CountryController.Update);
 
-CountryRouter.route('/read')
+CountryRouter.route('/read/:page')
     .get(CountryController.Read);
 CountryRouter.route('/profile/:id')
     .get(CountryController.Detail);
