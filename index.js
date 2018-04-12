@@ -8,6 +8,7 @@ var jwt         = require('jsonwebtoken');
 var http        = require('http');
 var https       = require('https');
 var fs          = require('fs');
+var dateforrmat = require('dateformat');
 
 //initialize base on directory
 var config      = require('./config/config');

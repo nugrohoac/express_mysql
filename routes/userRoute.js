@@ -5,8 +5,12 @@ var UserRouter      = express.Router();
 UserRouter.route('/read')
     .get(UserController.Read);
 UserRouter.route('/update')
-    .get(UserController.Update);
-UserRouter.route('/detail')
-    .get(UserController.Detail)
+    .post(UserController.Update);
+UserRouter.route('/profile/:id')
+    .get(UserController.Profile);
+UserRouter.route('/delete')
+    .get(UserController.Delete);
+UserRouter.route('/register')
+    .post(UserController.Register);
 
 module.exports = UserRouter;
