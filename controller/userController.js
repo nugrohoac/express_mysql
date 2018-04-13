@@ -118,7 +118,7 @@ var Login   = function(req, res){
     })
     .then(function(data){
         console.log(bcrypt.hashSync(req.body.password, 10));
-        if(data.password == bcrypt.hashSync(req.body.password, 10)){
+        if(data.password == bcrypt.hashSync(req.body.password, data.password)){
             res.json({
                 message: 'success login',
                 token: data.token
@@ -138,8 +138,8 @@ var Login   = function(req, res){
 }
 
 var Logout  = function(req, res){
-    User.Update({
-        password: ''
+    User.update({
+        token: ''
         },{
             where: {
                 id: req.params.id

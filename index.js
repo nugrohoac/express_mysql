@@ -10,12 +10,14 @@ var https       = require('https');
 var fs          = require('fs');
 var dateforrmat = require('dateformat');
 var jwt         = require('jsonwebtoken');
+var bcrypt      = require('bcrypt');
 
 //initialize base on directory
-var config      = require('./config/config');
-var UserRoute   = require('./routes/userRoute');
+var config          = require('./config/config');
+var UserRoute       = require('./routes/userRoute');
 var CountryRoute    = require('./routes/countryRoute');
-var LoginRoute  = require('./routes/loginRouter');
+var LoginRoute      = require('./routes/loginRouter');
+var jwtMiddleware   = require('./middleware/jwt');
 
 //setup on running
 var port        = process.env.PORT || 3000;
@@ -29,55 +31,16 @@ var options     = {
     cert:   fs.readFileSync('ssl/server.cert', 'utf8')
 };
 
-https.createServer(options, app).listen(port);
 //http.createServer(app).listen(port);
+https.createServer(options, app).listen(port);
 
 console.log('Example app listening https://localhost:' + port + '/');
 
-var bcrypt = require('bcrypt');
-
-app.get('/cek', function(req, res){
-    // var nice = bcrypt.hashSync('T4y0', 10);
-    // var hash = bcrypt.hashSync('myPassword', 10);
-    var cek = bcrypt.compareSync('luwak white kopi','$2b$10$wVJXlwt4XSBO3bGaZl8w.e/dugL5DCd9x0/pIOK6si4tpB7h0NEtC');
-    // res.send(nice);
-    res.send(cek);
-})
-
-// Encrypt 
-app.get('/hash', function(req, res){
-    var hash = bcrypt.hashSync('myPlaintextPassword', 7);
-    var decrypt = bcrypt.compareSync('myPlaintextPassword', '$2b$07$5q2KUqTX.MB4RHZ5v39em.lDVGYn4rBNOzQrbzyAw.uAwhV2ITOZm');
-    res.json({
-        hash: hash,
-        decrypt: decrypt
-    })
-});
-
-// app.use('/login', LoginRoute);
+//without token
 app.use('/user', UserRoute);
 
-app.use(function(req, res, next){
-    if(req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer'){
-        var token = req.headers.authorization.split(' ')[1];
-        req.token = token;
-        jwt.verify(token,config.secret,function(err, decode){
-            if(err){
-                res.json({
-                    status:401,
-                    success: false,
-                    message: 'Token invalid'
-                })
-            }
-        })
-        next();
-    }else{
-        res.json({
-            status: 401,
-            message: 'Please send token',
-            token: '',
-        })
-    }
-});
+//middleware
+app.use(jwtMiddleware.jwtMiddleware);
 
+//use token
 app.use('/country', CountryRoute);
