@@ -3,14 +3,14 @@ var uuidv1      = require('uuid/v1'); //uuidv1()
 var dateforrmat = require('dateformat');
 var jwt         = require('jsonwebtoken');
 var config      = require('../config/config');
-
+var bcrypt      = require('bcrypt');
 
 var Register  = function(req, res){
     User.create({
         nama : req.body.nama,
         username : req.body.username,
         alamat : req.body.alamat,
-        password: bcrypt.hash(req.body.password, 10),
+        password: bcrypt.hashSync(req.body.password, 10),
         token : jwt.sign({
             name: req.body.nama,
             alamet: req.body.alamat,
@@ -22,7 +22,10 @@ var Register  = function(req, res){
     })
     .then(function(data){
         console.log(data);
-        res.json(data);
+        res.json({
+            message: 'success register',
+            data:data
+        });
     })
     .catch(function(err){
         console.log(err);
@@ -32,7 +35,7 @@ var Register  = function(req, res){
 
 var Read    = function(req, res){
     User.findAll({ 
-        attributes: ['id','nama','alamat','token'],
+        attributes: ['id','nama','username','alamat'],
         limit: 5,
         order: [['id', 'DESC']]
     })
@@ -87,7 +90,9 @@ var Profile = function(req, res){
     })
     .catch(function(err){
         console.log(err);
-        res.json({ message : err })
+        res.json({
+            message : err
+        })
     })
 }
 
@@ -106,11 +111,50 @@ var Delete  = function(req, res){
 }
 
 var Login   = function(req, res){
-    var token = req.token;
-    var username = req.body.username;
-    var password = req.body.password;
     User.findOne({
+        where : {
+            username: req.body.username
+        }
+    })
+    .then(function(data){
+        console.log(bcrypt.hashSync(req.body.password, 10));
+        if(data.password == bcrypt.hashSync(req.body.password, 10)){
+            res.json({
+                message: 'success login',
+                token: data.token
+            })
+        }else{
+            res.json({
+                message : 'invalid password',
+                data: data
+            })
+        }
+    })
+    .catch(function(err){
+        res.json({
+            message : 'username not found'
+        })
+    })
+}
 
+var Logout  = function(req, res){
+    User.Update({
+        password: ''
+        },{
+            where: {
+                id: req.params.id
+            }
+        }
+    )
+    .then(function(data){
+        res.json({
+            message: 'sukses',
+            data: data
+        })
+    })
+    .catch(function(err){
+        console.log(err);
+        res.json({ message : err })
     })
 }
 
@@ -119,11 +163,7 @@ module.exports = {
     Read: Read,
     Update: Update,
     Profile: Profile,
-    Delete: Delete 
+    Delete: Delete,
+    Login: Login,
+    Logout: Logout
 }
-
-// if(bcrypt.compareSync('somePassword', hash)) {
-//  // Passwords match
-// } else {
-//  // Passwords don't match
-// }

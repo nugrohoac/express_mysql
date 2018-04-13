@@ -7,7 +7,9 @@ var User = database.sequelize.define('users', {
         primaryKey: true
     },
     nama: database.Sequelize.INTEGER,
+    username: database.Sequelize.STRING, 
     alamat: database.Sequelize.STRING,
+    password: database.Sequelize.STRING,
     token: database.Sequelize.STRING
 });
 

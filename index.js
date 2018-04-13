@@ -15,6 +15,7 @@ var jwt         = require('jsonwebtoken');
 var config      = require('./config/config');
 var UserRoute   = require('./routes/userRoute');
 var CountryRoute    = require('./routes/countryRoute');
+var LoginRoute  = require('./routes/loginRouter');
 
 //setup on running
 var port        = process.env.PORT || 3000;
@@ -34,7 +35,15 @@ https.createServer(options, app).listen(port);
 console.log('Example app listening https://localhost:' + port + '/');
 
 var bcrypt = require('bcrypt');
- 
+
+app.get('/cek', function(req, res){
+    // var nice = bcrypt.hashSync('T4y0', 10);
+    // var hash = bcrypt.hashSync('myPassword', 10);
+    var cek = bcrypt.compareSync('luwak white kopi','$2b$10$wVJXlwt4XSBO3bGaZl8w.e/dugL5DCd9x0/pIOK6si4tpB7h0NEtC');
+    // res.send(nice);
+    res.send(cek);
+})
+
 // Encrypt 
 app.get('/hash', function(req, res){
     var hash = bcrypt.hashSync('myPlaintextPassword', 7);
@@ -45,6 +54,7 @@ app.get('/hash', function(req, res){
     })
 });
 
+// app.use('/login', LoginRoute);
 app.use('/user', UserRoute);
 
 app.use(function(req, res, next){
@@ -56,7 +66,7 @@ app.use(function(req, res, next){
                 res.json({
                     status:401,
                     success: false,
-                    message: 'Failed Authectication token'
+                    message: 'Token invalid'
                 })
             }
         })
@@ -64,7 +74,7 @@ app.use(function(req, res, next){
     }else{
         res.json({
             status: 401,
-            message: 'Authetication failed, please send token',
+            message: 'Please send token',
             token: '',
         })
     }
