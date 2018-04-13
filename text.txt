@@ -1,1 +1,0 @@
-http://www.tothenew.com/blog/nodejs-with-mysql/
