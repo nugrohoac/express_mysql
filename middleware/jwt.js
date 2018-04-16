@@ -19,8 +19,7 @@ var jwtMiddleware = function(req, res, next){
     }else{
         res.json({
             status: 401,
-            message: 'Please send token',
-            token: '',
+            message: 'Please send token'
         })
     }
 }

@@ -12,16 +12,15 @@ var Register  = function(req, res){
         alamat : req.body.alamat,
         password: bcrypt.hashSync(req.body.password, 10),
         token : jwt.sign({
+            time: Date.now(),
             name: req.body.nama,
-            alamet: req.body.alamat,
-            time: Date.now()
+            alamet: req.body.alamat
         },
         config.secret,{
             
-        })
+        })        
     })
     .then(function(data){
-        console.log(data);
         res.json({
             message: 'success register',
             data:data
