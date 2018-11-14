@@ -16,6 +16,7 @@ var bcrypt      = require('bcrypt');
 var config          = require('./config/config');
 var UserRoute       = require('./routes/userRoute');
 var CountryRoute    = require('./routes/countryRoute');
+var DonwloadRoute   = require('./routes/downloadRoute');
 var LoginRoute      = require('./routes/loginRouter');
 var jwtMiddleware   = require('./middleware/jwt');
 
@@ -34,10 +35,12 @@ var options     = {
     cert:   fs.readFileSync('ssl/server.cert', 'utf8')
 };
 
-//http.createServer(app).listen(port);
-https.createServer(options, app).listen(port);
+http.createServer(app).listen(port);
+//https.createServer(options, app).listen(port);
 
 console.log('Example app listening https://localhost:' + port + '/');
+
+app.use('/fetch', DonwloadRoute);
 
 //without token
 app.use('/user', UserRoute);

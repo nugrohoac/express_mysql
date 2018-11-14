@@ -3,8 +3,8 @@ module.exports = {
     'host'      :   'localhost',
     'database'  :   'db_belajar',
     'username'  :   'root',
-    // 'password'  :   'password123',
-    'password'  :   '',
+     'password'  :   'password123',
+    //'password'  :   '',
     'port'      :   3306,
     'dialec'    :   'mysql'
 };
